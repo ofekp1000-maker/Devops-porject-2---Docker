@@ -1,0 +1,6 @@
+image:
+  repository: ofekp002/my-python-app
+  tag: "latest"
+
+service:
+  port: 5000
