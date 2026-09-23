@@ -42,21 +42,22 @@ spec:
                 }
             }
         }
-        stage('Push to Docker Hub') {
-            steps {
-                container('docker') {
-                    echo "Pushing the image to Docker Hub..."
-                    sh "echo docker push ${DOCKER_IMAGE}:latest"
+  stage('Push to Docker Hub') {
+        steps {
+            container('docker') {
+                withCredentials([usernamePassword(credentialsId: 'docker-credentials', passwordVariable: 'DOCKER_PASS', usernameVariable: 'DOCKER_USER')]) {
+                    echo "Logging in and Pushing to Docker Hub..."
+                    sh "echo \$DOCKER_PASS | docker login -u \$DOCKER_USER --password-stdin"
+                    sh "docker push ${DOCKER_IMAGE}:latest"
                 }
             }
         }
-        stage('Deploy to Kubernetes') {
-            steps {
-                container('helm') {
-                    echo "Deploying via Helm..."
-                    sh "echo helm upgrade --install ${RELEASE_NAME} ${CHART_DIR}"
-                }
+  }
+    stage('Deploy to Kubernetes') {
+        steps {
+            container('helm') {
+                echo "Deploying via Helm..."
+                sh "helm upgrade --install ${RELEASE_NAME} ${CHART_DIR}"
             }
         }
     }
-}
