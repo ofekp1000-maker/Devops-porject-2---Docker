@@ -37,6 +37,8 @@ spec:
         stage('Build Docker Image') {
             steps {
                 container('docker') {
+                    echo "Waiting for Docker daemon to initialize..."
+                    sh "sleep 15"
                     echo "Building the Docker image..."
                     sh "docker build -t ${DOCKER_IMAGE}:latest ."
                 }
