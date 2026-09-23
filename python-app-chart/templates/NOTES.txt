@@ -1,0 +1,20 @@
+Success! Your application '{{ include "app.fullname" . }}' is up and running!
+
+Thank you for deploying the Python App chart. Here is how you can access it:
+
+{{- if .Values.ingress.enabled }}
+Ingress is ENABLED.
+You can access your application by pointing your browser to:
+http://{{ .Values.ingress.host }}
+
+(Note: If you are using Minikube, make sure to add this host to your local 'hosts' file!)
+{{- else }}
+Ingress is DISABLED.
+To access the application locally, just run this quick port-forward command:
+
+  kubectl port-forward svc/{{ include "app.fullname" . }} 5000:5000
+
+Then, open your browser and go to: http://localhost:5000
+{{- end }}
+
+Happy Helming!

@@ -4,3 +4,7 @@ image:
 
 service:
   port: 5000
+ 
+ingress:
+  enabled: true
+  host: ofek-app.local
